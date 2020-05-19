@@ -37,7 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
     } elseif (ctype_digit($_POST['stock']) === FALSE) {
         $errors[] = '個数は0以上の整数を入力してください。';
     }
-    if ($_FILES['image']['size'] === 0) {
+
+    // error = 0 のみ成功
+    // https://www.php.net/manual/ja/features.file-upload.errors.php
+    if ($_FILES['image']['error'] !== 0) {
         $errors[] = '商品画像を選択してください。';
     } elseif ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
         $errors[] = '商品画像のファイル形式は、JPEGかPNG にしてください。';
@@ -50,6 +53,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
     }
 
     if (count($errors) === 0) {
+        // 画像はimg/に移し、pathを保存
+        //ファイル名は、元のファイル名_created にする
+        // TODO ： ファイル名を、自動で割り振る!
+        $image_name_array = explode('.', basename($_FILES['image']['name']));
+        $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
+        $uploaddir = './img/';
+        $uploadfile = $uploaddir . $image_name;
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
+            $image_path = $uploadfile;
+        } else {
+            $errors[] = '画像のコピーに失敗しました。';
+        }
+    }
+
+    // 画像のコピーも含めて、エラーしてないかチェック
+    // drink tableと、drink stock tableのinsert
+    if (count($errors) === 0) {
         // 各種値の更新
         $name = trim($_POST['name']);
         $price = (int) $_POST['price'];
@@ -58,19 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
         $created = date('Y-m-d H:i:s');
         $image_file_offset = date('Y-m-d_H-i-s');
         $updated = date('Y-m-d H:i:s');
-
-        // 画像はimg/に移し、pathを保存
-        //ファイル名は、元のファイル名_created にする
-        // TODO ： ファイル名を、自動で割り振る!
-        $image_name_array = explode('.', basename($_FILES['image']['name']));
-
-        $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
-
-        $uploaddir = './img/';
-        $uploadfile = $uploaddir . $image_name;
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
-            $image_path = $uploadfile;
-        }
 
         if ($link) {
             mysqli_set_charset($link, 'utf8');
