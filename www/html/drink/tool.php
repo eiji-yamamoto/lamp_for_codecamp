@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
         //ファイル名は、元のファイル名_created にする
         // TODO ： ファイル名を、自動で割り振る!
         $image_name_array = explode('.', basename($_FILES['image']['name']));
+        $image_file_offset = date('Y-m-d_H-i-s');
         $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
         $uploaddir = './img/';
         $uploadfile = $uploaddir . $image_name;
@@ -76,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
         $stock = (int) $_POST['stock'];
         $public_status = (int) $_POST["public_status"];
         $created = date('Y-m-d H:i:s');
-        $image_file_offset = date('Y-m-d_H-i-s');
         $updated = date('Y-m-d H:i:s');
 
         if ($link) {
