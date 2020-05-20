@@ -38,7 +38,7 @@ if ($link) {
         }
 
         #flex .drink {
-            //border: solid 1px;
+            /*border: solid 1px;*/
             width: 120px;
             height: 210px;
             text-align: center;

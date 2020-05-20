@@ -9,7 +9,7 @@ $correct_commit_message = [];
 $link = mysqli_connect($host, $username, $passwd, $dbname);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($_POST['money'] === '') {
+    if (isset($_POST['money']) === FALSE || $_POST['money'] === '') {
         $err_msg[] = '投入金額を入力してください。';
     } elseif (ctype_digit($_POST['money']) === FALSE) {
         $err_msg[] = '投入金額には、0以上の整数を入力してください。';
@@ -84,14 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     mysqli_rollback($link);
                 }
             }
-
-            mysqli_close($link);
         } else {
             $err_msg[] = 'error : ' . mysqli_connect_error();
         }
     }
 }
 
+mysqli_close($link);
 ?>
 <html lang="ja">
 

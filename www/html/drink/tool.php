@@ -21,18 +21,17 @@ $result_msg = [];
 ///////////////////////////////////////
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create') {
     // エラー処理
-    if (trim($_POST['name']) === "") {
+    if (isset($_POST['name']) === FALSE || trim($_POST['name']) === "") {
         $errors[] = '名前を入力してください。';
     }
-    if ($_POST['price'] === "") {
+    if (isset($_POST['price']) === FALSE || $_POST['price'] === "") {
         $errors[] = '値段を入力してください。';
-
         // ctype_digit : stringがすべて数字なら、小数点もマイナスもないので、必然的に整数
     } elseif (ctype_digit($_POST['price']) === FALSE) {
         $errors[] = '値段は0以上の整数を入力してください。';
     }
 
-    if ($_POST['stock'] === "") {
+    if (isset($_POST['stock']) === FALSE || $_POST['stock'] === "") {
         $errors[] = '個数を入力してください。';
     } elseif (ctype_digit($_POST['stock']) === FALSE) {
         $errors[] = '個数は0以上の整数を入力してください。';
@@ -40,13 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
 
     // error = 0 のみ成功
     // https://www.php.net/manual/ja/features.file-upload.errors.php
-    if ($_FILES['image']['error'] !== 0) {
+    if (isset($_FILES['image']) === FALSE || $_FILES['image']['error'] !== 0) {
         $errors[] = '商品画像を選択してください。';
     } elseif ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
         $errors[] = '商品画像のファイル形式は、JPEGかPNG にしてください。';
     }
 
-    if (isset($_POST['public_status']) === "") {
+    if (isset($_POST['public_status']) === FALSE || isset($_POST['public_status']) === '') {
         $errors[] = '公開/非公開を設定してください。';
     } elseif ($_POST['public_status'] !== '0' && $_POST['public_status'] !== '1') {
         $errors[] = '公開ステータスは、公開/非公開のどちらかを指定してください。';
@@ -55,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
     if (count($errors) === 0) {
         // 画像はimg/に移し、pathを保存
         //ファイル名は、元のファイル名_created にする
-        // TODO ： ファイル名を、自動で割り振る!
         $image_name_array = explode('.', basename($_FILES['image']['name']));
         $image_file_offset = date('Y-m-d_H-i-s');
         $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
@@ -120,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'create
 ///////////////////////////////////////
 // stock の更新
 ///////////////////////////////////////
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'update' && (isset($_POST['update_stock']) === TRUE)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'update' && isset($_POST['update_stock']) === TRUE) {
     // エラー処理
     if ($_POST['update_stock'] === "") {
         $errors[] = '個数を入力してください。';
@@ -154,9 +152,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'update
 ///////////////////////////////////////
 // public_status の更新
 ///////////////////////////////////////
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'update' && (isset($_POST['update_public_status']) === TRUE)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_status'] === 'update' && isset($_POST['update_public_status']) === TRUE) {
     // エラー処理
-    if (isset($_POST['update_public_status']) === "") {
+    if ($_POST['update_public_status'] === '') {
         $errors[] = '公開/非公開を設定してください。';
     } elseif ($_POST['update_public_status'] !== '0' && $_POST['update_public_status'] !== '1') {
         $errors[] = '公開ステータスは、公開/非公開のどちらかを指定してください。';
