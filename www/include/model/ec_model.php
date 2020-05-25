@@ -197,6 +197,19 @@ function is_account_valid($link, $name, $password)
     }
 }
 
+/**
+ * ログインしているかどうか確認
+ *
+ * @return void
+ */
+function is_logined()
+{
+    if (!isset($_SESSION['id'])) {
+        header("Location: " . $_SERVER['PHP_SELF'] . '/../login_controller.php');
+        exit();
+    }
+}
+
 
 //////////////////
 // db 操作
