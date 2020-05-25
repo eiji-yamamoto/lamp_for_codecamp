@@ -7,7 +7,7 @@ $link = get_db_link();
 $err_msg = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $err_msg[] = check_post_name_error();
+    $err_msg[] = check_post_username_error();
     $err_msg[] = check_post_password_error();
 
     if (!check_err_msg($err_msg)) {

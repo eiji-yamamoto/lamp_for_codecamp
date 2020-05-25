@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ログインページ</title>
+    <title>ユーザ登録ページ</title>
 </head>
 
 <body>
-    <h1>ログインページ</h1>
+    <h1>ユーザ登録ページ</h1>
     <?php if (check_err_msg($err_msg)) : ?>
         <ul>
             <?php foreach ($err_msg as  $value) : ?>
@@ -18,13 +18,21 @@
         </ul>
     <?php endif; ?>
 
+    <?php if (count($result_msg) >= 0) : ?>
+        <ul>
+            <?php foreach ($result_msg as  $value) : ?>
+                <li><?php print $value; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
     <form method="post">
         ユーザ名<input type="text" name="name"><br>
         パスワード<input type="password" name="password"><br>
-        <input type="submit" value="ログイン">
+        <input type="submit" value="ユーザ登録">
     </form>
 
-    <a href="./user_register_controller.php">ユーザの新規作成</a>
+    <a href="./login_controller.php">ログインページ</a>
 </body>
 
 </html>
