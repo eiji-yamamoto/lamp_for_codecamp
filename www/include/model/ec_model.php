@@ -133,16 +133,30 @@ function check_moving_upload_file_error($old_path, $new_path)
     }
 }
 
+/**
+ * username のpost があるかどうか
+ *
+ * @return int エラーコード
+ */
 function check_post_username_error()
 {
+    return check_post_name_error();
+}
+
+/**
+ * username の文法チェック
+ *
+ * @return int エラーコード
+ */
+function check_username_grammer_error()
+{
     $pattern = '/^[0-9a-zA-Z]{6,}$/';
-    if (!is_post_data_exist('name')) {
-        return 1;
-    } else if (preg_match($pattern, $_POST['name']) !== 1) {
+    if (preg_match($pattern, $_POST['name']) !== 1) {
         return 16;
     }
     return 0;
 }
+
 
 /**
  * パスワードがポストされているかどうか
@@ -151,10 +165,21 @@ function check_post_username_error()
  */
 function check_post_password_error()
 {
-    $pattern = '/^[0-9a-zA-Z]{6,}$/';
     if (!is_post_data_exist('password')) {
         return 14;
-    } else if (preg_match($pattern, $_POST['password']) !== 1) {
+    }
+    return 0;
+}
+
+/**
+ * パスワードの文法を確認
+ *
+ * @return int エラーコード
+ */
+function check_password_grammer_error()
+{
+    $pattern = '/^[0-9a-zA-Z]{6,}$/';
+    if (preg_match($pattern, $_POST['password']) !== 1) {
         return 18;
     }
     return 0;

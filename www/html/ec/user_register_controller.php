@@ -8,7 +8,9 @@ $result_msg = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $err_msg[] = check_post_username_error();
+    $err_msg[] = check_username_grammer_error();
     $err_msg[] = check_post_password_error();
+    $err_msg[] = check_password_grammer_error();
 
     if (!check_err_msg($err_msg)) {
         $name = $_POST['name'];
