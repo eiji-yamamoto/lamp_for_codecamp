@@ -133,6 +133,19 @@ function check_moving_upload_file_error($old_path, $new_path)
     }
 }
 
+/**
+ * パスワードがポストされているかどうか
+ *
+ * @return int エラーコード
+ */
+function check_post_password_error()
+{
+    if (!is_post_data_exist('password')) {
+        return 14;
+    }
+    return 0;
+}
+
 //////////////////
 // その他
 /////////////////
@@ -159,6 +172,29 @@ function create_upload_file_path($filename, $uploaddir = './img/')
     $image_file_offset = date('Y-m-d_H-i-s');
     $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
     return $uploaddir . $image_name;
+}
+
+
+//////////////////
+// ログイン操作
+/////////////////
+/**
+ * アカウントが、DBにあるかどうか確認
+ *
+ * @param object $link
+ * @param string $name
+ * @param string $password
+ * @return mixed DBにあれば、該当のuser id 、なければ、FALSE
+ */
+function is_account_valid($link, $name, $password)
+{
+    $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "' AND password = '" . $password . "'";
+    $data = select_db($link, $sql);
+    if ($id = isset($data[0]['id'])) {
+        return $id;
+    } else {
+        return FALSE;
+    }
 }
 
 
