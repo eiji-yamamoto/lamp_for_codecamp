@@ -8,6 +8,7 @@
 <body>
     <h1>商品管理ページ</h1>
     <a href="./user_management_controller.php">ユーザ管理ページ</a>
+    <a href="./logout_controller.php">ログアウト</a>
 
     <?php if (check_err_msg($errors)) : ?>
         <ul>

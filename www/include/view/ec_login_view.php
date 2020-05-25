@@ -24,6 +24,7 @@
         <input type="submit" value="ログイン">
     </form>
 
+    <a href="./ec_user_register_controller.php">ユーザの新規作成</a>
 </body>
 
 </html>
