@@ -20,7 +20,117 @@ function get_request_method()
  */
 function is_post_data_exist($key)
 {
-    return (isset($_POST[$key]) === TRUE && $_POST[$key] !== '');
+    return (isset($_POST[$key]) === TRUE && trim($_POST[$key]) !== '');
+}
+
+
+//////////////////
+// error 系
+/////////////////
+/**
+ * エラー配列の中に、エラーがあるか確認
+ *
+ * @param array $err_msg
+ * @return boolean
+ */
+function check_err_msg($err_msg)
+{
+    foreach ($err_msg as $value) {
+        if ($value !== 0) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+/**
+ * postデータのname にエラーがあるか確認
+ *
+ * @return int エラーコード
+ */
+function check_post_name_error()
+{
+    if (!is_post_data_exist('name')) {
+        return 1;
+    }
+    return 0;
+}
+
+/**
+ * post デーののprice にエラーがあるか確認
+ *
+ * @return int エラーコード
+ */
+function check_post_price_error()
+{
+    if (!is_post_data_exist('price')) {
+        return 2;
+    } else if (ctype_digit($_POST['price']) === FALSE) {
+        return 3;
+    }
+    return 0;
+}
+
+/**
+ * post データの stock にエラーがあるか確認
+ *
+ * @return int エラーコード
+ */
+function check_post_stock_error()
+{
+    if (!is_post_data_exist('stock')) {
+        return 4;
+    } else if (ctype_digit($_POST['stock']) === FALSE) {
+        return 5;
+    }
+    return 0;
+}
+
+/**
+ * post データの image に、エラーがあるか確認
+ *
+ * @return int エラーコード
+ */
+function check_post_image_error()
+{
+    if (isset($_FILES['image']) === FALSE || $_FILES['image']['error'] !== 0) {
+        return 6;
+    } else if ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
+        return 7;
+    }
+    return 0;
+}
+
+
+/**
+ * post デーのの公開/非公開の値が制約条件を満たしているかを確認
+ *
+ * @return int ERR_MSGSのエラーコードを返却
+ */
+function check_post_status_error()
+{
+    if (!is_post_data_exist('status')) {
+        return 8;
+    } elseif ($_POST['status'] !== '0' && $_POST['status'] !== '1') {
+        return 9;
+    }
+    return 0;
+}
+
+/**
+ * move_upload_file が上手くいくかどうかチェック
+ *
+ * @param string $old_path
+ * @param string $new_path
+ * @return int エラーコード
+ */
+function check_moving_upload_file_error($old_path, $new_path)
+{
+    if (move_uploaded_file($old_path, $new_path)) {
+        return 0;
+    } else {
+        return 10;
+    }
 }
 
 //////////////////
@@ -36,6 +146,20 @@ function h($str)
     return htmlspecialchars($str, ENT_QUOTES, HTML_CHARACTER_SET);
 }
 
+/**
+ * upload されたファイルのパスを作る
+ *
+ * @param string $filename
+ * @param string $uploaddir
+ * @return string パス
+ */
+function create_upload_file_path($filename, $uploaddir = './img/')
+{
+    $image_name_array = explode('.', $filename);
+    $image_file_offset = date('Y-m-d_H-i-s');
+    $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
+    return $uploaddir . $image_name;
+}
 
 
 //////////////////
@@ -85,7 +209,19 @@ function insert_db($link, $sql)
  */
 function update_db($link, $sql)
 {
-    return insert_db($link, $sql);
+    return mysqli_query($link, $sql);
+}
+
+/**
+ * delete文を実行
+ *
+ * @param obj $link
+ * @param str $sql
+ * @return bool
+ */
+function delete_db($link, $sql)
+{
+    return mysqli_query($link, $sql);
 }
 
 
