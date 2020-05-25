@@ -8,10 +8,9 @@ $status = '';
 $errors = [];
 $result_msg = [];
 
-$link = get_db_link();
-
 session_start();
 is_logined();
+$link = get_db_link();
 
 ///////////////////////////////////////
 // 新規商品追加
@@ -142,5 +141,4 @@ $sql = 'SELECT g.id, g.name, g.price, s.stock, g.status, g.img
 $data = select_db($link, $sql);
 
 close_db_link($link);
-
 include_once('../../include/view/ec_goods_management_view.php');
