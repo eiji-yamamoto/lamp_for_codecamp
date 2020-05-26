@@ -184,6 +184,20 @@ function check_password_grammer_error()
     }
     return 0;
 }
+/**
+ * post されたamount があっているかどうか確認
+ *
+ * @return int エラーコード
+ */
+function check_post_amount_error()
+{
+    if (!is_post_data_exist('amount')) {
+        return 19;
+    } else if (ctype_digit($_POST['amount']) === FALSE || $_POST['amount'] === '0') {
+        return 20;
+    }
+    return 0;
+}
 
 
 
@@ -213,6 +227,21 @@ function create_upload_file_path($filename, $uploaddir = './img/')
     $image_file_offset = date('Y-m-d_H-i-s');
     $image_name = $image_name_array[0] . '_' . $image_file_offset . '.' . $image_name_array[1];
     return $uploaddir . $image_name;
+}
+
+/**
+ * 商品の二次元配列から、合計金額を計算
+ *
+ * @param array $data
+ * @return int 合計金額
+ */
+function calc_sum($data)
+{
+    $sum = 0;
+    foreach ($data as  $value) {
+        $sum = $sum + $value['price'] * $value['amount'];
+    }
+    return $sum;
 }
 
 

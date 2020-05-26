@@ -108,7 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'update
 // 商品の削除
 ///////////////////////////////////////
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'delete') {
-    print 'aa';
     $id = (int) $_POST['id'];
     mysqli_autocommit($link, FALSE);
     $sql = "DELETE FROM ec_stock_table WHERE goods_id = " . $id;
