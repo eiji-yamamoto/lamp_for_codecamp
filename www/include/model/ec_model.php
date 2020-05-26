@@ -1,7 +1,4 @@
 <?php
-//////////////////
-// http 系
-/////////////////
 
 /**
  * リクエストメソッドを取得
@@ -23,187 +20,38 @@ function is_post_data_exist($key)
     return (isset($_POST[$key]) === TRUE && trim($_POST[$key]) !== '');
 }
 
-
-//////////////////
-// error 系
-/////////////////
 /**
- * エラー配列の中に、エラーがあるか確認
+ * アカウントが、DBにあるかどうか確認
  *
- * @param array $err_msg
- * @return boolean
+ * @param object $link
+ * @param string $name
+ * @param string $password
+ * @return mixed DBにあれば、該当のuser id 、なければ、FALSE
  */
-function check_err_msg($err_msg)
+function is_account_valid($link, $name, $password)
 {
-    foreach ($err_msg as $value) {
-        if ($value !== 0) {
-            return TRUE;
-        }
-    }
-    return FALSE;
-}
-
-/**
- * postデータのname にエラーがあるか確認
- *
- * @return int エラーコード
- */
-function check_post_name_error()
-{
-    if (!is_post_data_exist('name')) {
-        return 1;
-    }
-    return 0;
-}
-
-/**
- * post デーののprice にエラーがあるか確認
- *
- * @return int エラーコード
- */
-function check_post_price_error()
-{
-    if (!is_post_data_exist('price')) {
-        return 2;
-    } else if (ctype_digit($_POST['price']) === FALSE) {
-        return 3;
-    }
-    return 0;
-}
-
-/**
- * post データの stock にエラーがあるか確認
- *
- * @return int エラーコード
- */
-function check_post_stock_error()
-{
-    if (!is_post_data_exist('stock')) {
-        return 4;
-    } else if (ctype_digit($_POST['stock']) === FALSE) {
-        return 5;
-    }
-    return 0;
-}
-
-/**
- * post データの image に、エラーがあるか確認
- *
- * @return int エラーコード
- */
-function check_post_image_error()
-{
-    if (isset($_FILES['image']) === FALSE || $_FILES['image']['error'] !== 0) {
-        return 6;
-    } else if ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
-        return 7;
-    }
-    return 0;
-}
-
-
-/**
- * post デーのの公開/非公開の値が制約条件を満たしているかを確認
- *
- * @return int ERR_MSGSのエラーコードを返却
- */
-function check_post_status_error()
-{
-    if (!is_post_data_exist('status')) {
-        return 8;
-    } elseif ($_POST['status'] !== '0' && $_POST['status'] !== '1') {
-        return 9;
-    }
-    return 0;
-}
-
-/**
- * move_upload_file が上手くいくかどうかチェック
- *
- * @param string $old_path
- * @param string $new_path
- * @return int エラーコード
- */
-function check_moving_upload_file_error($old_path, $new_path)
-{
-    if (move_uploaded_file($old_path, $new_path)) {
-        return 0;
+    $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "' AND password = '" . $password . "'";
+    $data = select_db($link, $sql);
+    if ($id = isset($data[0]['id'])) {
+        return $id;
     } else {
-        return 10;
+        return FALSE;
     }
 }
 
 /**
- * username のpost があるかどうか
+ * ログインしているかどうか確認
  *
- * @return int エラーコード
+ * @return void
  */
-function check_post_username_error()
+function is_logined()
 {
-    return check_post_name_error();
-}
-
-/**
- * username の文法チェック
- *
- * @return int エラーコード
- */
-function check_username_grammer_error()
-{
-    $pattern = '/^[0-9a-zA-Z]{6,}$/';
-    if (preg_match($pattern, $_POST['name']) !== 1) {
-        return 16;
+    if (!isset($_SESSION['id'])) {
+        header("Location: " . $_SERVER['PHP_SELF'] . '/../login_controller.php');
+        exit();
     }
-    return 0;
 }
 
-
-/**
- * パスワードがポストされているかどうか
- *
- * @return int エラーコード
- */
-function check_post_password_error()
-{
-    if (!is_post_data_exist('password')) {
-        return 14;
-    }
-    return 0;
-}
-
-/**
- * パスワードの文法を確認
- *
- * @return int エラーコード
- */
-function check_password_grammer_error()
-{
-    $pattern = '/^[0-9a-zA-Z]{6,}$/';
-    if (preg_match($pattern, $_POST['password']) !== 1) {
-        return 18;
-    }
-    return 0;
-}
-/**
- * post されたamount があっているかどうか確認
- *
- * @return int エラーコード
- */
-function check_post_amount_error()
-{
-    if (!is_post_data_exist('amount')) {
-        return 19;
-    } else if (ctype_digit($_POST['amount']) === FALSE || $_POST['amount'] === '0') {
-        return 20;
-    }
-    return 0;
-}
-
-
-
-//////////////////
-// その他
-/////////////////
 /**
  * 特殊文字をHTMLエンティティに変換する
  * @param str  $str 変換前文字
@@ -242,127 +90,4 @@ function calc_sum($data)
         $sum = $sum + $value['price'] * $value['amount'];
     }
     return $sum;
-}
-
-
-//////////////////
-// ログイン操作
-/////////////////
-/**
- * アカウントが、DBにあるかどうか確認
- *
- * @param object $link
- * @param string $name
- * @param string $password
- * @return mixed DBにあれば、該当のuser id 、なければ、FALSE
- */
-function is_account_valid($link, $name, $password)
-{
-    $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "' AND password = '" . $password . "'";
-    $data = select_db($link, $sql);
-    if ($id = isset($data[0]['id'])) {
-        return $id;
-    } else {
-        return FALSE;
-    }
-}
-
-/**
- * ログインしているかどうか確認
- *
- * @return void
- */
-function is_logined()
-{
-    if (!isset($_SESSION['id'])) {
-        header("Location: " . $_SERVER['PHP_SELF'] . '/../login_controller.php');
-        exit();
-    }
-}
-
-
-//////////////////
-// db 操作
-/////////////////
-/**
- * DBハンドルを取得
- * @return obj $link DBハンドル
- */
-function get_db_link()
-{
-    if (!$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD, DB_NAME)) {
-        die('error: ' . mysqli_connect_error());
-    }
-    mysqli_set_charset($link, DB_CHARACTER_SET);
-    return $link;
-}
-
-/**
- * DBとのコネクション切断
- * @param obj $link DBハンドル
- */
-function close_db_link($link)
-{
-    mysqli_close($link);
-}
-
-
-/**
- * insertを実行する
- *
- * @param obj $link DBハンドル
- * @param str SQL文
- * @return bool
- */
-function insert_db($link, $sql)
-{
-    return mysqli_query($link, $sql);
-}
-
-/**
- * update文を実行
- *
- * @param obj $link
- * @param str $sql
- * @return bool
- */
-function update_db($link, $sql)
-{
-    return mysqli_query($link, $sql);
-}
-
-/**
- * delete文を実行
- *
- * @param obj $link
- * @param str $sql
- * @return bool
- */
-function delete_db($link, $sql)
-{
-    return mysqli_query($link, $sql);
-}
-
-
-
-/**
- * クエリを実行しその結果を配列で取得する
- *
- * @param obj  $link DBハンドル
- * @param str  $sql SQL文
- * @param str  $result_type mysqli_fetch_arrayにおけるresult_type, 連想配列かどうか
- * @return array 結果配列データ
- */
-function select_db($link, $sql, $result_type = MYSQLI_ASSOC)
-{
-    $data = array();
-    if ($result = mysqli_query($link, $sql)) {
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_array($result, $result_type)) {
-                $data[] = $row;
-            }
-        }
-        mysqli_free_result($result);
-    }
-    return $data;
 }

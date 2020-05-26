@@ -1,6 +1,5 @@
 <?php
-require_once('../../include/conf/const.php');
-require_once('../../include/model/ec_model.php');
+require_once('../../include/conf/ec_const.php');
 
 $link = get_db_link();
 $err_msg = [];
