@@ -22,8 +22,8 @@
 
         <?php foreach ($data as $value) : ?>
             <tr>
-                <td><?php print $value['name']; ?></td>
-                <td><?php print $value['created_date']; ?></td>
+                <td><?php print h($value['name']); ?></td>
+                <td><?php print h($value['created_date']); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

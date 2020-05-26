@@ -14,7 +14,7 @@
         <ul>
             <?php foreach ($errors as  $value) : ?>
                 <?php if ($value !== 0) : ?>
-                    <li><?php print ERR_MSGS[$value]; ?></li>
+                    <li><?php print h(ERR_MSGS[$value]); ?></li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
@@ -23,7 +23,7 @@
     <?php if (count($result_msg) >= 0) : ?>
         <ul>
             <?php foreach ($result_msg as  $value) : ?>
-                <li><?php print $value; ?></li>
+                <li><?php print h($value); ?></li>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
@@ -63,13 +63,13 @@
         <?php foreach ($data as $value) : ?>
             <tr>
                 <td><img src="<?php print $value['img'] ?>"></td>
-                <td><?php print $value['name']; ?></td>
-                <td><?php print $value['price']; ?></td>
+                <td><?php print h($value['name']); ?></td>
+                <td><?php print h($value['price']); ?></td>
                 <td>
                     <form method="post">
                         <input type="hidden" name="change_method" value="update_stock">
                         <input type="hidden" name="id" value="<?php print $value['id']; ?>">
-                        <input type="number" min="0" name="stock" value="<?php print $value['stock']; ?>">
+                        <input type="number" min="0" name="stock" value="<?php print h($value['stock']); ?>">
                         <input type="submit" value="更新">
                     </form>
                 </td>
