@@ -185,6 +185,8 @@ function check_password_grammer_error()
     return 0;
 }
 
+
+
 //////////////////
 // その他
 /////////////////
