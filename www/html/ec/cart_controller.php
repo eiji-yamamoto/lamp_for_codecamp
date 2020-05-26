@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'delete
 }
 
 $sql = "SELECT g.id, g.name, g.price, g.img, s.stock, c.amount
-        FROM ec_goods_table AS g JOIN ec_stock_table AS s ON g.id = s.goods_id JOIN ec_cart_table AS c ON g.id = c.goods_id";
+        FROM ec_goods_table AS g JOIN ec_stock_table AS s ON g.id = s.goods_id JOIN ec_cart_table AS c ON g.id = c.goods_id
+        WHERE c.user_id =" . $_SESSION['id'];
 $data = select_db($link, $sql);
 $sum = calc_sum($data);
 

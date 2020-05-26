@@ -62,10 +62,12 @@
         <?php endforeach; ?>
 
     </table>
-    <h1>合計金額 </h1>
+    <h2>合計金額 </h2>
     <h3><?php print $sum; ?>円</h3>
 
-    <h3><a href="./buy_controller.php">商品を購入</a><br></h3>
+    <form action="./buy_controller.php" method="post">
+        <input type="submit" value="商品を購入">
+    </form>
 </body>
 
 </html>
