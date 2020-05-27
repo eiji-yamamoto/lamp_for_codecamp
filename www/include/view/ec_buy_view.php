@@ -17,8 +17,7 @@
         <ul>
             <?php foreach ($err_msg as $value) : ?>
                 <?php if ($value !== 0) : ?>
-                    <li><?php print h(ERR_MSGS[$value]); ?>
-                    </li>
+                    <li><?php print h(ERR_MSGS[$value]); ?></li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
@@ -37,12 +36,9 @@
 
         <?php foreach ($data as $value) : ?>
             <tr>
-                <td><img src="<?php print $value['img'] ?>">
-                </td>
-                <td><?php print h($value['name']); ?>
-                </td>
-                <td><?php print h($value['price']); ?>
-                </td>
+                <td><img src="<?php print $value['img'] ?>"></td>
+                <td><?php print h($value['name']); ?></td>
+                <td><?php print h($value['price']); ?></td>
                 <td><?php print h($value['amount']); ?>
             </tr>
         <?php endforeach; ?>

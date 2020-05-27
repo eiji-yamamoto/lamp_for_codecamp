@@ -10,10 +10,10 @@ function check_err_msg($err_msg)
 {
     foreach ($err_msg as $value) {
         if ($value !== 0) {
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 /**
@@ -38,7 +38,7 @@ function check_post_price_error()
 {
     if (!is_post_data_exist('price')) {
         return 2;
-    } else if (ctype_digit($_POST['price']) === FALSE) {
+    } elseif (ctype_digit($_POST['price']) === false) {
         return 3;
     }
     return 0;
@@ -53,7 +53,7 @@ function check_post_stock_error()
 {
     if (!is_post_data_exist('stock')) {
         return 4;
-    } else if (ctype_digit($_POST['stock']) === FALSE) {
+    } elseif (ctype_digit($_POST['stock']) === false) {
         return 5;
     }
     return 0;
@@ -66,9 +66,9 @@ function check_post_stock_error()
  */
 function check_post_image_error()
 {
-    if (isset($_FILES['image']) === FALSE || $_FILES['image']['error'] !== 0) {
+    if (isset($_FILES['image']) === false || $_FILES['image']['error'] !== 0) {
         return 6;
-    } else if ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
+    } elseif ($_FILES['image']['type'] !== 'image/jpeg' && $_FILES['image']['type'] !== 'image/png') {
         return 7;
     }
     return 0;
@@ -166,7 +166,7 @@ function check_post_amount_error()
 {
     if (!is_post_data_exist('amount')) {
         return 19;
-    } else if (ctype_digit($_POST['amount']) === FALSE || $_POST['amount'] === '0') {
+    } elseif (ctype_digit($_POST['amount']) === false || $_POST['amount'] === '0') {
         return 20;
     }
     return 0;

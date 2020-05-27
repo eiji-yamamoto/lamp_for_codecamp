@@ -17,7 +17,7 @@ function get_request_method()
  */
 function is_post_data_exist($key)
 {
-    return (isset($_POST[$key]) === TRUE && trim($_POST[$key]) !== '');
+    return (isset($_POST[$key]) === true && trim($_POST[$key]) !== '');
 }
 
 /**
@@ -35,7 +35,7 @@ function is_account_valid($link, $name, $password)
     if ($id = isset($data[0]['id'])) {
         return $id;
     } else {
-        return FALSE;
+        return false;
     }
 }
 
@@ -86,7 +86,7 @@ function create_upload_file_path($filename, $uploaddir = './img/')
 function calc_sum($data)
 {
     $sum = 0;
-    foreach ($data as  $value) {
+    foreach ($data as $value) {
         $sum = $sum + $value['price'] * $value['amount'];
     }
     return $sum;
