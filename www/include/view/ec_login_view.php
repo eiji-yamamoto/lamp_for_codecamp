@@ -8,6 +8,9 @@
 
 <body>
     <h1>ログインページ</h1>
+
+    <a href="./user_register_controller.php">ユーザの新規作成</a>
+
     <?php if (check_err_msg($err_msg)) : ?>
         <ul>
             <?php foreach ($err_msg as $value) : ?>
@@ -18,13 +21,14 @@
         </ul>
     <?php endif; ?>
 
+    <hr>
+
     <form method="post">
         ユーザ名<input type="text" name="name"><br>
         パスワード<input type="password" name="password"><br>
         <input type="submit" value="ログイン">
     </form>
 
-    <a href="./user_register_controller.php">ユーザの新規作成</a>
 </body>
 
 </html>

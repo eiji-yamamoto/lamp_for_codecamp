@@ -112,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'delete
     $sql = "DELETE FROM ec_stock_table WHERE goods_id = " . $id;
 
     if (delete_db($link, $sql)) {
-        print 'bb';
         $sql = "DELETE FROM ec_goods_table WHERE id = " . $id;
         if (!delete_db($link, $sql)) {
             $errors[] = 13;
