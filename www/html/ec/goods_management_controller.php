@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'create
         $updated_date = $created_date;
 
         // transaction 開始
-        mysqli_autocommit($link, FALSE);
+        mysqli_autocommit($link, false);
         $sql = "INSERT INTO ec_goods_table(name, price, img, status, created_date, updated_date) VALUES ('"
             . $name . "'," . $price . ", '" . $img . "', '" . $status . "', '" . $created_date . "', '" . $updated_date . "')";
 
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'update
 ///////////////////////////////////////
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'delete') {
     $id = (int) $_POST['id'];
-    mysqli_autocommit($link, FALSE);
+    mysqli_autocommit($link, false);
     $sql = "DELETE FROM ec_stock_table WHERE goods_id = " . $id;
 
     if (delete_db($link, $sql)) {

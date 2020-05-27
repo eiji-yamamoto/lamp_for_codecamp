@@ -1,17 +1,18 @@
 <?php
+
 require_once('../../include/model/ec_model.php');
 require_once('../../include/model/ec_error_model.php');
 require_once('../../include/model/ec_db_model.php');
 
 define('MAX_FILE_SIZE', 30000); // アップロードするファイルサイズ
 
-define('DB_HOST',   'mysql'); // データベースのホスト名又はIPアドレス
-define('DB_USER',   'db_user');  // MySQLのユーザ名
+define('DB_HOST', 'mysql'); // データベースのホスト名又はIPアドレス
+define('DB_USER', 'db_user');  // MySQLのユーザ名
 define('DB_PASSWD', 'db_user');    // MySQLのパスワード
-define('DB_NAME',   'default_db');    // データベース名
+define('DB_NAME', 'default_db');    // データベース名
 
 define('HTML_CHARACTER_SET', 'UTF-8');  // HTML文字エンコーディング
-define('DB_CHARACTER_SET',   'UTF8');   // DB文字エンコーディング
+define('DB_CHARACTER_SET', 'UTF8');   // DB文字エンコーディング
 
 const ERR_MSGS =
 [   // 0 = 成功

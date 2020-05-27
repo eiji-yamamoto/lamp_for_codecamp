@@ -10,9 +10,10 @@
     <h1>ログインページ</h1>
     <?php if (check_err_msg($err_msg)) : ?>
         <ul>
-            <?php foreach ($err_msg as  $value) : ?>
+            <?php foreach ($err_msg as $value) : ?>
                 <?php if ($value !== 0) : ?>
-                    <li><?php print h(ERR_MSGS[$value]); ?></li>
+                    <li><?php print h(ERR_MSGS[$value]); ?>
+                    </li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'];
         $password = $_POST['password'];
 
-        mysqli_autocommit($link, FALSE);
+        mysqli_autocommit($link, false);
         $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "'";
         $data =  select_db($link, $sql);
         if (!isset($data[0]['id'])) {

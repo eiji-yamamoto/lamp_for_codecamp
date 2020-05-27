@@ -14,7 +14,7 @@ $data = select_db($link, $sql);
 $sum = calc_sum($data);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    mysqli_autocommit($link, FALSE);
+    mysqli_autocommit($link, false);
 
     $sql = "UPDATE ec_stock_table AS s , ec_cart_table AS c SET s.stock = s.stock - c.amount, s.updated_date = NOW()
             WHERE s.goods_id = c.goods_id AND c.user_id = " . $_SESSION['id'];
