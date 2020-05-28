@@ -36,7 +36,7 @@
 
         <?php foreach ($data as $value) : ?>
             <tr>
-                <td><img src="<?php print $value['img'] ?>"></td>
+                <td><img src="<?php print $value['img'] ?>" height="100"></td>
                 <td><?php print h($value['name']); ?></td>
                 <td><?php print h($value['price']); ?></td>
                 <td><?php print h($value['amount']); ?>

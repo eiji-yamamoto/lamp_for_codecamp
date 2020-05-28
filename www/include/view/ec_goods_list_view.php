@@ -55,7 +55,7 @@
     <div id="flex">
         <?php foreach ($data as $value) : ?>
             <div class="goods">
-                <span><img src="<?php print $value['img'] ?>"></span>
+                <span><img src="<?php print $value['img'] ?>" height="100"></span>
                 <span><?php print h($value['name']); ?></span>
                 <span><?php print h($value['price']); ?>円</span>
                 <?php if ($value['stock'] == '0') : ?>
