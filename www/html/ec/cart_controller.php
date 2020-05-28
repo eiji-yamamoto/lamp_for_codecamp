@@ -9,7 +9,8 @@ $err_msg = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'update_amount') {
     $err_msg[] = check_post_amount_error();
     if (!check_err_msg($err_msg)) {
-        $sql = 'UPDATE ec_cart_table SET updated_date = NOW(), amount = ' . $_POST['amount'] . " WHERE goods_id = " . $_POST['id'];
+        $sql = 'UPDATE ec_cart_table SET updated_date = NOW(), amount = ' . $_POST['amount'] .
+            " WHERE goods_id = " . $_POST['id'] . " AND user_id = " . $_SESSION['id'];
         if (update_db($link, $sql)) {
             $result_msg = '数量を更新しました。';
         } else {
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'update
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['change_method'] === 'delete') {
-    $sql = "DELETE FROM ec_cart_table WHERE goods_id = " . $_POST['id'];
+    $sql = "DELETE FROM ec_cart_table WHERE goods_id = " . $_POST['id'] . " AND user_id = " . $_SESSION['id'];
     if (delete_db($link, $sql)) {
         $result_msg = '商品を削除しました。';
     } else {
