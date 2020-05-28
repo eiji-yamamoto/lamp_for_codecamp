@@ -32,8 +32,8 @@ function is_account_valid($link, $name, $password)
 {
     $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "' AND password = '" . $password . "'";
     $data = select_db($link, $sql);
-    if ($id = isset($data[0]['id'])) {
-        return $id;
+    if (isset($data[0]['id'])) {
+        return $data[0]['id'];
     } else {
         return false;
     }
