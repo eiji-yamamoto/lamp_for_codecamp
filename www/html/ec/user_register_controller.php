@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
 
         mysqli_autocommit($link, false);
-        $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "'";
+        $sql = "SELECT id FROM ec_user_table WHERE name = '" . $name . "' FOR UPDATE";
         $data =  select_db($link, $sql);
         if (!isset($data[0]['id'])) {
             $sql = "INSERT INTO ec_user_table(name, password, created_date, update_date)

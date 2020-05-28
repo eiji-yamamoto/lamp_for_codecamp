@@ -171,3 +171,19 @@ function check_post_amount_error()
     }
     return 0;
 }
+
+/**
+ * 在庫が購入数より多いか確認
+ *
+ * @param array $data selectの結果の連想配列
+ * @return boolean
+ */
+function is_stock_greater_than_amount($data)
+{
+    foreach ($data as $value) {
+        if ((int) $value['amount'] > (int) $value['stock']) {
+            return false;
+        }
+    }
+    return true;
+}

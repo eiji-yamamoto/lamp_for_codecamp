@@ -7,25 +7,28 @@ $link = get_db_link();
 $err_msg = [];
 $result_msg = '購入失敗';
 
+mysqli_autocommit($link, false);
 $sql = "SELECT g.id, g.name, g.price, g.img, s.stock, c.amount
         FROM ec_goods_table AS g JOIN ec_stock_table AS s ON g.id = s.goods_id JOIN ec_cart_table AS c ON g.id = c.goods_id
-        WHERE c.user_id =" . $_SESSION['id'];
+        WHERE c.user_id =" . $_SESSION['id'] . " FOR UPDATE";
 $data = select_db($link, $sql);
 $sum = calc_sum($data);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    mysqli_autocommit($link, false);
-
-    $sql = "UPDATE ec_stock_table AS s , ec_cart_table AS c SET s.stock = s.stock - c.amount, s.updated_date = NOW()
+    if (is_stock_greater_than_amount($data)) {
+        $sql = "UPDATE ec_stock_table AS s , ec_cart_table AS c SET s.stock = s.stock - c.amount, s.updated_date = NOW()
             WHERE s.goods_id = c.goods_id AND c.user_id = " . $_SESSION['id'];
 
-    if (update_db($link, $sql)) {
-        $sql = "DELETE FROM ec_cart_table WHERE user_id = " . $_SESSION['id'];
-        if (!delete_db($link, $sql)) {
-            $err_msg[] = 13;
+        if (update_db($link, $sql)) {
+            $sql = "DELETE FROM ec_cart_table WHERE user_id = " . $_SESSION['id'];
+            if (!delete_db($link, $sql)) {
+                $err_msg[] = 13;
+            }
+        } else {
+            $err_msg[] = 12;
         }
     } else {
-        $err_msg[] = 12;
+        $err_msg[] = 21;
     }
 
     if (!check_err_msg($err_msg)) {
@@ -34,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         mysqli_rollback($link);
     }
+} else {
+    mysqli_rollback($link);
 }
 
 close_db_link($link);
