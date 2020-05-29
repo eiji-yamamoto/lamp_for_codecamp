@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>2-9 課題</title>
+    <script>
+      var n1 = Math.floor(Math.random() * 101);
+      var n2 = Math.floor(Math.random() * 101);
+      var n3 = Math.floor(Math.random() * 101);
+
+      document.write("数字1: " + n1);
+      document.write("数字2: " + n2);
+      document.write("数字3: " + n3);
+
+      if (n1 > n2) {
+        if (n1 > n3) {
+          document.write(n1);
+        } else {
+          document.write(n3);
+        }
+      } else {
+        if (n2 > n3) {
+          document.write(n2);
+        } else {
+          document.write(n3);
+        }
+      }
+    </script>
+  </head>
+
+  <body></body>
+</html>
