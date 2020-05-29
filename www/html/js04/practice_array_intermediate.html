@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>課題</title>
+    <script>
+      var data = [59, 39, 100, 2, 15, 40, 84, 97];
+
+      /* 以下に課題処理を追加 */
+      var under_n = 0;
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        document.write(element + "<br>");
+        if (element < 40) {
+          under_n++;
+        }
+      }
+      document.write("40以下の数値は" + under_n + "個です。");
+    </script>
+  </head>
+
+  <body></body>
+</html>

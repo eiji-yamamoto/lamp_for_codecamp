@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>課題</title>
+    <script>
+      var data1 = [59, 39, 100, 2, 15, 40, 84, 97];
+      var data2 = [63, 18, 64, 97, 50, 98];
+
+      /* 以下に課題処理を追加 */
+      var sum1 = 0;
+      var sum2 = 0;
+      var ava = 0;
+      for (let i = 0; i < data1.length; i++) {
+        sum1 += data1[i];
+      }
+
+      for (let i = 0; i < data2.length; i++) {
+        sum2 += data2[i];
+      }
+      ava = (sum1 + sum2) / (data1.length + data2.length);
+      document.write("平均値" + ava + "<br>");
+      document.write("平均値以上の数値は以下<br>");
+
+      for (let i = 0; i < data1.length; i++) {
+        if (data1[i] >= ava) {
+          document.write(data1[i] + "<br>");
+        }
+      }
+
+      for (let i = 0; i < data2.length; i++) {
+        if (data2[i] >= ava) {
+          document.write(data2[i] + "<br>");
+        }
+      }
+    </script>
+  </head>
+
+  <body></body>
+</html>
