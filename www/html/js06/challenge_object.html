@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>challenge_object</title>
+  </head>
+
+  <body>
+    <script>
+      var fruits = new Array();
+
+      fruits[0] = "apple";
+      fruits[1] = "grape";
+      fruits[2] = "melon";
+
+      // pushメソッドにより配列fruitsへorangeを追加
+      fruits.push("orange");
+
+      // for文により配列fruitsの中身を表示
+      for (let i = 0; i < fruits.length; i++) {
+        const element = fruits[i];
+        document.write(element + "<br>");
+      }
+    </script>
+  </body>
+</html>
