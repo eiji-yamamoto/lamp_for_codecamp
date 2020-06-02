@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>10-5 課題</title>
+    <script src="../jquery-3.5.1.min.js"></script>
+    <script>
+      var interval_id;
+      function start_timer() {
+        interval_id = setInterval(() => {
+          var time_array = $("#timer").html().split(":");
+          if (time_array[0] === "0" && time_array[1] === "1") {
+            $("#timer").html("Time UP");
+            clearInterval(interval_id);
+          } else {
+            var tmp = new Date();
+            tmp.setMinutes(time_array[0]);
+            tmp.setSeconds(time_array[1] - 1);
+            $("#timer").html(tmp.getMinutes() + ":" + tmp.getSeconds());
+          }
+        }, 1000);
+      }
+      function stop_timer() {
+        clearInterval(interval_id);
+      }
+      function reset_timer() {
+        $("#timer").html("3:00");
+      }
+
+      $(document).ready(function () {
+        $("#start").click(start_timer);
+        $("#stop").click(stop_timer);
+        $("#reset").click(reset_timer);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="timer">3:00</div>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <button id="reset">reset</button>
+  </body>
+</html>

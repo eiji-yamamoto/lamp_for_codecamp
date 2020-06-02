@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>jQuery</title>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>
+      /* 課題処理を追加 */
+      $(document).ready(function () {
+        for (let i = 1; i <= 9; i++) {
+          $("#matrix").append("<tr id=" + i + "></tr>");
+          for (let j = 1; j <= 9; j++) {
+            var str = i + "*" + j + "=" + i * j;
+            if ((i + j) % 2 === 0) {
+              $("#" + i).append("<td class=even>" + str + "</str>");
+            } else {
+              $("#" + i).append("<td>" + str + "</str>");
+            }
+          }
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../practice_jquery_intermediate.css"
+    />
+    <table id="matrix">
+      <caption>
+        九九表
+      </caption>
+    </table>
+  </body>
+</html>
