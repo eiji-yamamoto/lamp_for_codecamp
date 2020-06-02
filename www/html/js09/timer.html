@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>9-1 カウントダウンタイマー</title>
+    <script>
+      var interval_id;
+
+      function start_timer() {
+        interval_id = setInterval(() => {
+          var timer = document.getElementById("timer");
+          if (timer.innerHTML === "0:1") {
+            timer.innerHTML = "Time UP";
+            stop_timer();
+          } else {
+            var time_array = timer.innerHTML.split(":");
+
+            // date 演算するために、tmpを作成
+            var tmp_date = new Date();
+            tmp_date.setMinutes(time_array[0]);
+            tmp_date.setSeconds(time_array[1] - 1);
+
+            timer.innerHTML =
+              tmp_date.getMinutes() + ":" + tmp_date.getSeconds();
+          }
+        }, 1000);
+      }
+
+      function stop_timer() {
+        clearInterval(interval_id);
+      }
+
+      function reset_timer() {
+        document.getElementById("timer").innerHTML = "3:00";
+      }
+
+      window.onload = function () {
+        document.getElementById("start").addEventListener("click", start_timer);
+        document.getElementById("stop").addEventListener("click", stop_timer);
+        document.getElementById("reset").addEventListener("click", reset_timer);
+      };
+    </script>
+  </head>
+  <body>
+    <div id="timer">0:3</div>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <button id="reset">reset</button>
+  </body>
+</html>
