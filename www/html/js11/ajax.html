@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ajax</title>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>
+      function get_text() {
+        // Ajax通信処理
+        $.ajax({
+          // リクエストタイプ（省略するとGETがデフォルトになります。）
+          type: "GET",
+          // リクエスト送信先URLの設定
+          url:
+            "https://codecamp-textbook.s3-ap-northeast-1.amazonaws.com/sample/ajax.txt",
+          // 非同期通信フラグ
+          async: true,
+        })
+          .done(function (data, textStatus, jqXHR) {
+            // 成功時の場合の処理
+            $("div.result").text($("div.result").text() + data);
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) {
+            // エラーの場合の処理
+            $("div.result").text(
+              "エラーが発生しました。ステータス：" + jqXHR.status
+            );
+          });
+      }
+      $(document).ready(function () {
+        setInterval(get_text, 2000);
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="result"></div>
+  </body>
+</html>
