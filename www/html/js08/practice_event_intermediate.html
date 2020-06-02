@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>8-7 課題</title>
+
+    <script>
+        var interval_id;
+        var input;
+        function put_text (){
+            var div = document.getElementById("div");
+            div.innerHTML = '';
+            input = document.getElementById("text").value;
+            interval_id = setInterval(put_char,2000);
+        }
+
+        function put_char(){
+            var output = document.getElementById("div").innerHTML;
+            console.log(input);
+            console.log(output);
+            if (input === output) {
+                clearInterval(interval_id);
+            } else {
+                var appendChar = input.charAt(output.length + 0);
+                document.getElementById("div").innerHTML = output + appendChar;
+            }
+        }
+
+        window.onload = function (){
+            document.getElementById("button").addEventListener("click",put_text);
+        }
+    </script>
+  </head>
+  <body>
+      <input type="text" id="text">
+      <button id = "button">文字を表示</button>
+      <div id = "div"></div>
+</html>

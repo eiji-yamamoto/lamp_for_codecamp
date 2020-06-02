@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>8-5 課題</title>
+    <script>
+        function add_link(){
+            var element_a = document.createElement("a");
+            var link = document.getElementById("link");
+            var url = document.getElementById("url");
+            var div = document.getElementById("div");
+            element_a.href = url.value;
+            element_a.innerHTML = link.value;
+            div.appendChild(element_a);
+        }
+        window.onload = function (){
+            var button = document.getElementById("button");
+            button.addEventListener("click",add_link);
+        }
+    </script>
+  </head>
+  <body>
+    リンク名:<input type="text" id="link">
+    URL: <input type="text" id="url">
+    <button id="button">リンク追加</button>
+    <div id = "div"></div>
+</html>
