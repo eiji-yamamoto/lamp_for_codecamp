@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>ルーレット</title>
+    <style>
+      table,
+      tr,
+      td {
+        border: solid 1px;
+      }
+
+      td {
+        padding: 5px;
+      }
+
+      .default {
+        background-color: white;
+      }
+
+      .roll {
+        background-color: lightblue;
+      }
+
+      .stop {
+        background-color: red;
+      }
+
+      .stopped {
+        background-color: lightsalmon;
+      }
+    </style>
+
+    <script src="./jquery-3.5.1.min.js"></script>
+    <script>
+      var interval_id;
+      var n;
+      var stopped_n = [];
+
+      $(document).ready(function () {
+        make_roulette();
+        $("#stop").prop("disabled", true);
+
+        $("#start").click(start_roulette);
+        $("#stop").click(stop_roulette);
+        $("#reset").click(reset_roulette);
+      });
+
+      function make_roulette() {
+        for (let i = 1; i <= 4; i++) {
+          $("#roulette").append("<tr id=row" + i + "></tr>");
+          for (let j = 1; j <= 4; j++) {
+            var n = (i - 1) * 4 + j;
+            $("#row" + i).append("<td id=" + n + ">" + n + "</td>");
+          }
+        }
+      }
+
+      function start_roulette() {
+        // startボタンを押せなくし、stopボタンを押せるように
+        $("#start").prop("disabled", true);
+
+        if (stopped_n.length < 16) {
+          interval_id = setInterval(roll, 750);
+        }
+      }
+
+      function roll() {
+        // 前回の着色を消す
+        $("#" + n).removeClass("roll");
+
+        // stop　してたら、class をstoppedにする
+        if ($("#" + n).hasClass("stop")) {
+          $("#" + n).removeClass("stop");
+          $("#" + n).addClass("stopped");
+        }
+
+        // ランダムで、まだ止まっていないnの選定
+        do {
+          n = Math.floor(Math.random() * 16) + 1;
+        } while (stopped_n.includes(n));
+
+        $("#" + n).addClass("roll");
+
+        // すべての処理が終わってから、stopを押せるように
+        $("#stop").prop("disabled", false);
+      }
+
+      function stop_roulette() {
+        MyClearInterval();
+
+        $("#" + n).addClass("stop");
+        stopped_n.push(n);
+      }
+
+      function MyClearInterval() {
+        $("#stop").prop("disabled", true);
+        clearInterval(interval_id);
+
+        //すべてのマスがstopになっていなければ、start disabledを解除
+        if (stopped_n.length < 15) {
+          $("#start").prop("disabled", false);
+        }
+      }
+
+      function reset_roulette() {
+        stopped_n = [];
+        MyClearInterval();
+
+        $("#roulette").find("*").removeClass();
+        $("#roulette").find("*").addClass("default");
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>ルーレット</h1>
+    <table id="roulette" border="1"></table>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+    <button id="reset">reset</button>
+  </body>
+</html>
