@@ -1,0 +1,207 @@
+@startuml
+title ec_class_disgram
+
+package Model {
+    class User
+    class Cart
+    class Goods
+    class CartHistory
+    Interface DB
+    class MySQL
+}
+
+class User {
+    + id : int
+    + name : String
+    + password : String
+    + created_date : DateTime
+    + updated_date : DateTime
+    - db : DB
+    + is_valid(self) : boolean
+    + is_admin(name) : boolean
+    + get_user(name, passwprd) : User
+    + is_exist(name) : boolean
+    + get_users() : Array(Users)
+    + register(User) : boolean
+}
+
+class Cart {
+    + id : int
+    + user_id : int
+    + goods_id : int
+    + amount : int
+    + created_date : DateTime
+    + updated_date : DateTime
+    - db : DB
+    + is_valid(self) : boolean
+    + create_cart(user_id, goods_id, created_date, updated_date) : boolean
+    + update_cart(user_id, item_id, amount, update_date) : boolean
+    + delete_cart(user_id, item_id) : boolean
+    + read_cart(id) : Cart
+    + read_user_carts(user_id) : Array(Carts)
+    + buy(user_id) : boolean
+}
+
+class CartHistory{
+    + id : int
+    + cart_id : int
+    + user_id : int
+    + goods_id : int
+    + amount : int
+    + created_date : DateTime
+    + updated_date : DateTime
+    - db : DB
+    + create_cart_history(cart_id, user_id, goods_id, created_date, updated_date) : boolean
+    + update_cart_history(cart_id, user_id, item_id, amount, update_date) : boolean
+    + delete_cart_history(cart_id, user_id, item_id) : boolean
+    + read_cart_history(id) : CartHistory
+    + read_user_cart_histories(user_id) : Array(CartHistory)
+}
+
+class Goods {
+    + id : int
+    + price : int
+    + status : int
+    + stock : int
+    + img : String
+    + name : String
+    + created_date : DateTime
+    + update_date : DateTime
+    - db : DB
+    + is_valid(self) : boolean
+    + create_goods(name, price, img, status, created_date, updated_date) : boolean
+    + update_stock(id, stock) : boolean
+    + update_status(id, status) : boolean
+    + delete_goods(id) : boolean
+    + get_publish_goods() : Array(Goods)
+    + get_goods() : Goods
+
+}
+
+
+
+Interface DB {
+    + create() : boolean
+    + read() : array
+    + update() : boolean
+    + delete() : boolean
+    + open() : object
+    + close() : boolean
+    + begin_transaction() : boolean
+    + end_transaction() : boolean
+
+}
+
+class MySQL {
+    - link  :object
+
+}
+
+
+package Controller {
+    class BaseController
+    class UserController
+    class CartController
+    class GoodsController
+}
+
+class BaseController{
+    + get_request_method() : String
+    + is_post_data_exist(key) : boolean
+    + is_logined() : boolean
+    + login(User) : boolean
+    + logout() : boolean
+}
+
+class UserController {
+    + index()
+    + register()
+    + login()
+    + logout()
+}
+
+class CartController {
+    + index()
+    + add()
+    + update()
+    + delete()
+    + buy()
+}
+
+class GoodsController {
+    + index()
+    + management()
+    + register()
+    + update()
+    + delete()
+}
+
+package View {
+    class BaseView
+    class UserView
+    class CartView
+    class GoodsView
+}
+
+class BaseView {
+    h(text) : String
+}
+
+class UserView {
+    + index()
+    + register()
+    + login()
+    + logout()
+}
+
+class CartView {
+    + index()
+    + add()
+    + update()
+    + delete()
+    + buy()
+}
+
+class GoodsView {
+    + index()
+    + management()
+    + register()
+    + delete()
+    + update()
+}
+
+
+
+User "1" - "n" Cart
+Goods "1" - "n" Cart
+Cart "1" - "1" CartHistory
+
+Cart "1" - "1" DB
+User "1" - "1" DB
+Goods "1" - "1" DB
+CartHistory "1" - "1" DB
+
+DB <|-- MySQL
+
+BaseController <|-- CartController
+BaseController <|-- GoodsController
+BaseController <|-- UserController
+
+
+CartController  "1" - "n" Cart
+CartController  "1" - "n" CartHistory
+GoodsController  "1" - "n" Goods
+GoodsController  "1" - "n" Cart
+UserController  "1" - "n" User
+
+
+CartController  "1" - "1" CartView
+GoodsController  "1" - "1" GoodsView
+UserController  "1" - "1" UserView
+
+BaseView <|-- CartView
+BaseView <|-- GoodsView
+BaseView <|-- UserView
+
+
+@enduml
